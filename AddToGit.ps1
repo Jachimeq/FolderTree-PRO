@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Automate init, commit and push to GitHub.
+  Automate init, commit, pull-rebase and push to GitHub.
 #>
 
 param(
@@ -53,11 +53,19 @@ if ($existing) {
 git add .
 Write-Host "Staged all files."
 $msg = Read-Host "Enter commit message [Initial commit]"
-if ([string]::IsNullOrWhiteSpace($msg)) { 
-    $msg = "Initial commit" 
+if ([string]::IsNullOrWhiteSpace($msg)) {
+    $msg = "Initial commit"
 }
 git commit -m $msg
 Write-Host "Created commit: $msg"
+
+# 5.5 Pull remote changes and rebase
+Write-Host "Pulling and rebasing remote changes (if any)..."
+git pull --rebase origin $Branch
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Rebase failed. Resolve conflicts manually, then run 'git rebase --continue' and re-run this script."
+    exit 1
+}
 
 # 6. Push to origin/$Branch
 git push -u origin $Branch
