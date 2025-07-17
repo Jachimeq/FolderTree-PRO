@@ -1,0 +1,21 @@
+{
+  "rootId": "1",
+  "items": {
+    "1": {
+      "data": { "title": "project" },
+      "children": ["2", "3"]
+    },
+    "2": {
+      "data": { "title": "src" },
+      "children": ["4"]
+    },
+    "3": {
+      "data": { "title": "public" },
+      "children": []
+    },
+    "4": {
+      "data": { "title": "components" },
+      "children": []
+    }
+  }
+}
